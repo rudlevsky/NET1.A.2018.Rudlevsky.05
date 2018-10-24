@@ -8,7 +8,7 @@ namespace PolynomOperations
     /// </summary>
     public enum Operation
     {
-        Sum, Minus, Mult
+        Sum, Minus
     }
 
     /// <summary>
@@ -27,7 +27,16 @@ namespace PolynomOperations
         /// <param name="arrayIndex">User's array.</param>
         public Polynomial(params double[] array)
         {
-            CheckArray(array);
+            if (array == null)
+            {
+                throw new ArgumentNullException(nameof(array) + " can't be equal to null.");
+            }
+
+            if (array.Length == 0)
+            {
+                throw new ArgumentException(nameof(array) + " length can't be equal to 0.");
+            }
+
             arrayCoef = new double[array.Length];
 
             array.CopyTo(arrayCoef, 0);
@@ -63,7 +72,23 @@ namespace PolynomOperations
         /// <returns>Object with new data.</returns>
         public static Polynomial operator *(Polynomial obj1, Polynomial obj2)
         {
-            return Combinate(obj1, obj2, Operation.Mult);
+            CheckException(obj1);
+            CheckException(obj2);
+
+            double[] array1 = obj1.GetArray();
+            double[] array2 = obj2.GetArray();
+
+            double[] result = new double[array1.Length + array2.Length - 1];
+
+            for (int i = 0; i < array1.Length; i++)
+            {
+                for (int j = 0; j < array2.Length; j++)
+                {
+                    result[i + j] += array1[i] + array2[j];
+                }
+            }
+
+            return new Polynomial(result);
         }
 
         /// <summary>
@@ -165,10 +190,12 @@ namespace PolynomOperations
 
         private static Polynomial Combinate(Polynomial obj1, Polynomial obj2, Operation op)
         {
+            CheckException(obj1);
+            CheckException(obj2);
+
             double[] polArray1 = obj1.GetArray();
             double[] polArray2 = obj2.GetArray();
-            double[] polBig;
-            double[] polSmall;
+            double[] polBig, polSmall;
 
             if (polArray1.Length != polArray2.Length)
             {
@@ -191,25 +218,17 @@ namespace PolynomOperations
                     case Operation.Sum:
                         polBig[i] += polSmall[i];
                         break;
-                    case Operation.Mult:
-                        polBig[i] *= polSmall[i];
-                        break;
                 }
             }
 
             return new Polynomial(polBig);
         }
 
-        private void CheckArray(double[] array)
+        private static void CheckException(Polynomial polynom)
         {
-            if (array == null)
+            if (polynom == null)
             {
-                throw new ArgumentNullException(nameof(array) + " can't be equal to null.");
-            }
-
-            if (array.Length == 0)
-            {
-                throw new ArgumentException(nameof(array) + " length can't be equal to 0.");
+                throw new ArgumentNullException($"{nameof(polynom)} can't be equal to null.");
             }
         }
     }

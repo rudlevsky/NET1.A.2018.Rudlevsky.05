@@ -99,7 +99,7 @@ namespace PolynomOperations.Tests
         {
             double[] array1 = new double[] { 1, 2, 3 };
             double[] array2 = new double[] { 1, 2 ,4};
-            double[] arrayResult = new double[] { 1, 4, 12 };
+            double[] arrayResult = new double[] { 2, 6, 13, 11, 7 };
 
             var obj1 = new Polynomial(array1);
             var obj2 = new Polynomial(array2);
@@ -124,7 +124,7 @@ namespace PolynomOperations.Tests
         [Test]
         public void MethodEquals_Null_ArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new Polynomial(new double[] { 1,2 }).Equals(null));
+            Assert.Throws<ArgumentNullException>(() => new Polynomial(new double[] { 1, 2 }).Equals(null));
         }
     }
 }
