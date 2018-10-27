@@ -4,14 +4,6 @@ using System.Text;
 namespace PolynomOperations
 {
     /// <summary>
-    /// Enumerator for operations.
-    /// </summary>
-    public enum Operation
-    {
-        Sum, Minus
-    }
-
-    /// <summary>
     /// Class contains polynomial coefficients.
     /// </summary>
     public sealed class Polynomial: ICloneable, IEquatable<Polynomial>
@@ -88,7 +80,23 @@ namespace PolynomOperations
         /// <returns>Object with new data.</returns>
         public static Polynomial operator +(Polynomial obj1, Polynomial obj2)
         {
-            return Combinate(obj1, obj2, Operation.Sum);
+            CheckException(obj1);
+            CheckException(obj2);
+
+            double[] polBig = obj1.GetArray();
+            double[] polSmall = obj2.GetArray();
+            
+            if (polBig.Length < polSmall.Length)
+            {
+                ArraySwap(ref polBig, ref polSmall);
+            }
+            
+            for (int i = 0; i < polSmall.Length; i++)
+            {
+                polBig[i] += polSmall[i];
+            }
+
+            return new Polynomial(polBig);
         }
 
         /// <summary>
@@ -99,7 +107,23 @@ namespace PolynomOperations
         /// <returns>Object with new data.</returns>
         public static Polynomial operator -(Polynomial obj1, Polynomial obj2)
         {
-            return Combinate(obj1, obj2, Operation.Minus);
+            CheckException(obj1);
+            CheckException(obj2);
+
+            double[] polBig = obj1.GetArray();
+            double[] polSmall = obj2.GetArray();
+
+            if (polBig.Length < polSmall.Length)
+            {
+                ArraySwap(ref polBig, ref polSmall);
+            }
+
+            for (int i = 0; i < polSmall.Length; i++)
+            {
+                polBig[i] -= polSmall[i];
+            }
+
+            return new Polynomial(polBig);
         }
 
         /// <summary>
@@ -226,48 +250,21 @@ namespace PolynomOperations
             return array;
         }
 
-        private static Polynomial Combinate(Polynomial obj1, Polynomial obj2, Operation op)
-        {
-            CheckException(obj1);
-            CheckException(obj2);
-
-            double[] polArray1 = obj1.GetArray();
-            double[] polArray2 = obj2.GetArray();
-            double[] polBig, polSmall;
-
-            if (polArray1.Length != polArray2.Length)
-            {
-                polBig = (polArray1.Length > polArray2.Length) ? polArray1 : polArray2;
-                polSmall = (polArray1.Length < polArray2.Length) ? polArray1 : polArray2;
-            }
-            else
-            {
-                polBig = polArray1;
-                polSmall = polArray2;
-            }
-
-            for (int i = 0; i < polSmall.Length; i++)
-            {
-                switch (op)
-                {
-                    case Operation.Minus:
-                        polBig[i] -= polSmall[i];
-                        break;
-                    case Operation.Sum:
-                        polBig[i] += polSmall[i];
-                        break;
-                }
-            }
-
-            return new Polynomial(polBig);
-        }
-
         private static void CheckException(Polynomial polynom)
         {
             if (polynom == null)
             {
                 throw new ArgumentNullException($"{nameof(polynom)} can't be equal to null.");
             }
+        }
+
+        private static void ArraySwap(ref double[] arrayBig, ref double[] arraySmall)
+        {
+            double[] arraySwap;
+
+            arraySwap = arraySmall;
+            arraySmall = arrayBig;
+            arrayBig = arraySwap;
         }
     }
 }
