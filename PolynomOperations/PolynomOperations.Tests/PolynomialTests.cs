@@ -110,6 +110,48 @@ namespace PolynomOperations.Tests
         }
 
         [Test]
+        public void MethodInterfaceEquals_Object_ReturnResultTrue()
+        {
+            var obj1 = new Polynomial(1.0, 14.3);
+
+            var obj2 = new Polynomial(1.0, 14.3);
+
+            Assert.IsTrue(obj2.Equals(obj1));       
+        }
+
+        [Test]
+        public void MethodInterfaceEquals_Object_ReturnResultFalse()
+        {
+            var obj1 = new Polynomial(1.0, 12);
+
+            var obj2 = new Polynomial(1.0, 14.3);
+
+            Assert.IsFalse(obj2.Equals(obj1));
+        }
+
+        [Test]
+        public void MethodClone_ReturnNewInstanceOfObject()
+        {
+            var obj1 = new Polynomial(1.0, 12);
+
+            var obj2 = obj1.Clone();
+
+            Assert.AreEqual(obj1, obj2);
+        }
+
+        [Test]
+        public void MethodInterfaceClone_ReturnNewInstanceOfObject()
+        {
+            var obj1 = new Polynomial(1.0, 12);
+
+            ICloneable cloneObj = obj1;
+
+            Polynomial polyn = (Polynomial)cloneObj.Clone();
+
+            Assert.AreEqual(obj1, polyn);
+        }
+
+        [Test]
         public void PolynomialConstructor_Null_ArgumentNullException()
         {
             Assert.Throws<ArgumentNullException>(() => new Polynomial(null));

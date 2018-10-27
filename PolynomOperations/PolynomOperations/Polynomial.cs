@@ -14,12 +14,50 @@ namespace PolynomOperations
     /// <summary>
     /// Class contains polynomial coefficients.
     /// </summary>
-    public sealed class Polynomial
+    public sealed class Polynomial: ICloneable, IEquatable<Polynomial>
     {
         /// <summary>
         /// Array of coefficients.
         /// </summary>
         private readonly double[] arrayCoef;
+
+        /// <summary>
+        /// Method creates a copy of the current object.
+        /// </summary>
+        /// <returns>Copy of the current object.</returns>
+        public Polynomial Clone()
+        {
+            return new Polynomial(GetArray());
+        }
+
+        /// <summary>
+        /// Method creates a copy of the current object.
+        /// </summary>
+        /// <returns>Copy of the current object.</returns>
+        object ICloneable.Clone()
+        {
+            return Clone();
+        }
+
+        /// <summary>
+        /// Checks if object is equal to the current instance.
+        /// </summary>
+        /// <param name="other">Other object for comparison.</param>
+        /// <returns>Result of comparison.</returns>
+        public bool Equals(Polynomial other)
+        {
+            if (this == other)
+            {
+                return true;
+            }
+
+            if (Equals(other as object))
+            {
+                return true;
+            }
+
+            return false;
+        }
 
         /// <summary>
         /// Constructor for array initialization.
