@@ -12,6 +12,7 @@ namespace PolynomOperations
         /// Array of coefficients.
         /// </summary>
         private readonly double[] arrayCoef;
+        private const double delta = 0.1;
 
         /// <summary>
         /// Method creates a copy of the current object.
@@ -220,7 +221,7 @@ namespace PolynomOperations
 
             for (int i = 0; i < arrayCoef.Length; i++)
             {
-                if (arrayCoef[i] != polArray[i])
+                if (Math.Abs(arrayCoef[i] - polArray[i]) > delta)
                 {
                     return false;
                 }

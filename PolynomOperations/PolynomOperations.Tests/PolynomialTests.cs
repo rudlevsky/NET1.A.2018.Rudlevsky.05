@@ -11,7 +11,7 @@ namespace PolynomOperations.Tests
             new Polynomial(array).ToString();
         
 
-        [TestCase(new double[] { 1, 2, 3 }, new double[] { 1, 2, 3 }, ExpectedResult = true)]
+        [TestCase(new double[] { 1, 2.12, 3.56 }, new double[] { 1, 2.12, 3.56 }, ExpectedResult = true)]
         public bool MethodEquals_DoubleArrays_CorrectResultTrue(double[] array1, double[] array2)
         {
             var obj1 = new Polynomial(array1);
