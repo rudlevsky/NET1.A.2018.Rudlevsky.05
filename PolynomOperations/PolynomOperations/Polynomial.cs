@@ -11,8 +11,8 @@ namespace PolynomOperations
         /// <summary>
         /// Array of coefficients.
         /// </summary>
-        private readonly double[] arrayCoef;
-        private const double delta = 0.1;
+        private readonly double[] arrayCoef = {};
+        private static double delta = 0.1;
 
         /// <summary>
         /// Method creates a copy of the current object.
@@ -236,7 +236,7 @@ namespace PolynomOperations
         /// <returns>Array's hash code.</returns>
         public override int GetHashCode()
         {
-            return GetArray().GetHashCode();
+            return GetArray().Length;
         }
 
         /// <summary>
